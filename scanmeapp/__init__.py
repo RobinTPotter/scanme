@@ -7,6 +7,9 @@ import subprocess
 import logging
 import shutil
 
+gunicorn_error_logger = logging.getLogger('gunicorn.error')
+app.logger.handlers.extend(gunicorn_error_logger.handlers)
+app.logger.setLevel(logging.DEBUG)
 app.logger.info("hello")
 
 app.page_number = 1
@@ -36,12 +39,12 @@ def hello(name=None):
                 app.logger.info("copied to {}".format("/scan{}.png".format(app.page_number)))
                 app.page_number += 1
 
+        elif request.args.get("action")=="shutdown":
+            p = subprocess.Popen("sudo shutdown now".split(' '), shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            app.logger.info(p.communicate())
+
     return render_template('hello.html')
 
 
 if __name__ == "__main__":
     app.run(debug=True)
-else:
-    gunicorn_logger = logging.getLogger('gunicorn.error')
-    app.logger.handlers = gunicorn_logger.handlers
-    app.logger.setLevel(gunicorn_logger.level)
