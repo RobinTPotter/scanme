@@ -1,0 +1,23 @@
+<!doctype html>
+<title>Exploding Heads</title>
+<p><b>Image</b></p>
+<img id="scan" src="{{ url_for('static', filename='test.png') }}" />
+<p><b>Scan</b>
+<form id="scanform" action="/">
+<input type="radio" name="res" id="75" value="75"></input>
+<label for="75">75</label><br>
+<input type="radio" name="res" id="150" value="150"></input>
+<label for="150">150</label><br>
+<input type="radio" name="res" id="300" value="150"></input> 
+<label for="300">300</label><br>
+<input type="radio" name="res" id="600" value="600"></input>
+<label for="600">600</label><br>
+<input type="checkbox" id="color" name="colour"></input>
+<label for="colour">colour</label><br>
+<input id="action" type="hidden" name="action" value="scan"></input>
+<input type="submit" value="scan" onclick="document.getElementById('action').value='scan'"></input>
+<input type="submit" value="keep" onclick="document.getElementById('action').value='keep'"></input>
+<input type="submit" value="clear" onclick="document.getElementById('action').value='clear'"></input>
+<input type="submit" value="pdf" onclick="document.getElementById('action').value='pdf'"></input>
+</form>
+</p>
