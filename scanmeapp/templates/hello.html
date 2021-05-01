@@ -1,15 +1,15 @@
 <!doctype html>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Exploding Heads</title>
 <p><b>Image</b>
-<img id="scan" src="{{ url_for('static', filename='test.png') }}" />
+<br>
+<img id="scan" style="width:50%" src="{{ url_for('static', filename='test.png') }}" />
 </p>
 <p><b>Scan</b>
 <form id="scanform" action="/">
 <input type="radio" name="res" id="75" value="75"></input>
 <label for="75">75</label><br>
-<input type="radio" name="res" id="150" value="150"></input>
-<label for="150">150</label><br>
-<input type="radio" name="res" id="300" value="150"></input> 
+<input type="radio" name="res" id="300" value="300"></input>
 <label for="300">300</label><br>
 <input type="radio" name="res" id="600" value="600"></input>
 <label for="600">600</label><br><br>
@@ -22,4 +22,9 @@
 <input type="submit" value="pdf" onclick="document.getElementById('action').value='pdf'"></input>
 <input type="submit" value="shutdown" onclick="document.getElementById('action').value='shutdown'"></input>
 </form>
+</p>
+<p>
+{% for f in thumbs %}
+<img src="{{ url_for('static', filename=f) }}">
+{% endfor %}
 </p>
