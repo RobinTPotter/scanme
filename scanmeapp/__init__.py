@@ -1,10 +1,11 @@
-from flask import Flask, request, redirect, url_for
+from flask import Flask, request, redirect, url_for, send_file
 from flask import render_template
 app = Flask(__name__)
 
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 
 from PIL import Image
+from fpdf import FPDF
 import os
 import subprocess
 import logging
@@ -58,6 +59,18 @@ def hello(name=None):
             app.logger.info("bye")
             subprocess.Popen("sudo shutdown now".split(' '))
 
+        elif request.args.get("action")=="pdf":
+            pdf = FPDF()
+
+            # imagelist is the list with all image filenames
+            for image in [f for f in os.listdir(app.static_folder) if f.startswith("scan")]:
+                pdf.add_page()
+                pdf.image(app.static_folder + "/" + image,0,0,209,297)
+
+            pdf.output(app.static_folder + "/out.pdf", "F")
+
+            return send_file(app.static_folder + "/out.pdf", as_attachment=True)
+
         return redirect(url_for('hello'))
 
     return render_template('hello.html', thumbs=[f for f in os.listdir(app.static_folder) if "_scan" in f])
@@ -65,3 +78,6 @@ def hello(name=None):
 
 if __name__ == "__main__":
     app.run(debug=True)
+
+
+
